@@ -1,32 +1,32 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import FormClientsComponent from "../components/clients/FormClientsComponent";
-import ListClientsComponent from "../components/clients/ListClientsComponent";
+import FormArticlesComponent from "../components/articles/FormArticlesComponent";
+import ListArticlesComponent from "../components/articles/ListArticlesComponent";
 import { ToastContainer, toast } from "react-toastify";
 
-const Clients = () => {
+const Articles = () => {
   let navigate = useNavigate();
 
-  const [clients, setClients] = useState([]);
+  const [articles, setArticles] = useState([]);
 
   // GET -------------------------------------------------------------------------------------------------------------------------
-  const getClients = () => {
-    axios.get(`${process.env.REACT_APP_API_SERVER}/services/clientSoa/_getselect`).then((result) => {
-      setClients(result.data.entries.entry);
+  const getArticles = () => {
+    axios.get(`${process.env.REACT_APP_API_SERVER}/services/articleSoa/_getselect`).then((result) => {
+      setArticles(result.data.entries.entry);
     });
   };
 
   useEffect(() => {
-    getClients();
+    getArticles();
   }, []);
 
   // DELETE -------------------------------------------------------------------------------------------------------------------------
-  const deleteClient = (id) => {
-    axios.get(`${process.env.REACT_APP_API_SERVER}/services/clientSoa/_deletedelete?id=${id}`).then((result) => {
+  const deleteArticle = (id) => {
+    axios.get(`${process.env.REACT_APP_API_SERVER}/services/articleSoa/_deletedelete?id=${id}`).then((result) => {
       if (result.data.REQUEST_STATUS == "SUCCESSFUL") {
         // notification
-        toast.error("Client supprimé", {
+        toast.error("Article supprimé", {
           position: "top-right",
           autoClose: 4000,
           hideProgressBar: false,
@@ -37,29 +37,27 @@ const Clients = () => {
         });
 
         // refresh data
-        getClients();
+        getArticles();
       }
     });
   };
 
   // POST -------------------------------------------------------------------------------------------------------------------------
-  const postClient = (client) => {
+  const postArticle = (article) => {
     const params = new URLSearchParams();
-    params.append("nom", client.nom);
-    params.append("prenom", client.prenom);
-    params.append("contact", client.contact);
-    params.append("numeroCin", client.numeroCin);
-    console.log("🚀 ~ file: Clients.js ~ line 50 ~ postClient ~ params", params.toString());
+    params.append("nom", article.nom);
+    params.append("quantity", article.quantity);
+    console.log("🚀 ~ file: articles.js ~ line 50 ~ postArticle ~ params", params.toString());
 
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_API_SERVER}/services/clientSoa/_postinsert`,
+      url: `${process.env.REACT_APP_API_SERVER}/services/articleSoa/_postinsert`,
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       data: params,
     }).then((result) => {
       if (result.data.REQUEST_STATUS == "SUCCESSFUL") {
         // notification
-        toast.success("Client ajouté", {
+        toast.success("Article ajouté", {
           position: "top-right",
           autoClose: 4000,
           hideProgressBar: false,
@@ -70,32 +68,30 @@ const Clients = () => {
         });
 
         // refresh data
-        getClients();
-        navigate("/clients");
+        getArticles();
+        navigate("/articles");
       }
     });
   };
 
   // UPDATE -------------------------------------------------------------------------------------------------------------------------
-  const updateClient = (client) => {
-    console.log("🚀 ~ file: Clients.js ~ line 81 ~ updateClient ~ client", client);
+  const updateArticle = (article) => {
+    console.log("🚀 ~ file: articles.js ~ line 81 ~ updateArticle ~ article", article);
     const params = new URLSearchParams();
-    params.append("nom", client.nom);
-    params.append("prenom", client.prenom);
-    params.append("contact", client.contact);
-    params.append("numeroCin", client.numeroCin);
-    params.append("id", client.id);
-    console.log("🚀 ~ file: Clients.js ~ line 50 ~ postClient ~ params", params.toString());
+    params.append("nom", article.nom);
+    params.append("quantity", article.quantity);
+    params.append("id", article.id);
+    console.log("🚀 ~ file: articles.js ~ line 50 ~ postArticle ~ params", params.toString());
 
     axios({
       method: "post",
-      url: `${process.env.REACT_APP_API_SERVER}/services/clientSoa/_putupdate`,
+      url: `${process.env.REACT_APP_API_SERVER}/services/articleSoa/_putupdate`,
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       data: params,
     }).then((result) => {
       if (result.data.REQUEST_STATUS == "SUCCESSFUL") {
         // notification
-        toast.warning("Client modifié", {
+        toast.warning("Article modifié", {
           position: "top-right",
           autoClose: 4000,
           hideProgressBar: false,
@@ -106,8 +102,8 @@ const Clients = () => {
         });
 
         // refresh data
-        getClients();
-        navigate("/clients");
+        getArticles();
+        navigate("/articles");
       }
     });
   };
@@ -116,12 +112,12 @@ const Clients = () => {
     <div>
       <ToastContainer />
       <Routes>
-        <Route path="/" element={<ListClientsComponent clients={clients} deleteFunction={deleteClient} />} />
-        <Route path="/add_personne" element={<FormClientsComponent postFunction={postClient} />} />
-        <Route path="/edit_personne/:id" element={<FormClientsComponent updateFunction={updateClient} />} />
+        <Route path="/" element={<ListArticlesComponent articles={articles} deleteFunction={deleteArticle} />} />
+        <Route path="/add_article" element={<FormArticlesComponent postFunction={postArticle} />} />
+        <Route path="/edit_article/:id" element={<FormArticlesComponent updateFunction={updateArticle} />} />
       </Routes>
     </div>
   );
 };
 
-export default Clients;
+export default Articles;
