@@ -16,7 +16,7 @@ const FormClientsComponent = (props) => {
 
   // GET BY ID IF EDIT -------------------------------------------------------------------------------------------------------------------------
   const getArticleById = () => {
-    axios.get(`${process.env.REACT_APP_API_SERVER}/services/articleSoa/_getgetbyid?id=${id}`).then((result) => {
+    axios.get(`${process.env.REACT_APP_API_SERVER}/services/articleSoa/_getbyid?id=${id}`).then((result) => {
       setFormData({ ...result.data.entries.entry[0], id: id });
       console.log("🚀 ~ file: FormClientsComponent.js ~ line 27 ~ getArticleById ~ result", formData);
     });
