@@ -18,6 +18,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item active">
+<<<<<<< HEAD
             <Link className="nav-link" to="/categories">
               Categories
             </Link>  
@@ -31,6 +32,11 @@ const Navbar = () => {
             <Link className="nav-link" to="/reservations">
               Reservations
             </Link>  
+=======
+            <Link className="nav-link" to="/articles">
+              Articles
+            </Link>
+>>>>>>> ed174e601eb4f13fd70897d987a13219c2f7025e
           </li>
         </ul>
       </div>
