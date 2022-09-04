@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import FormClientsComponent from "../components/FormClientsComponent";
-import ListClientsComponent from "../components/ListClientsComponent";
+import FormClientsComponent from "../components/clients/FormClientsComponent";
+import ListClientsComponent from "../components/clients/ListClientsComponent";
 import { ToastContainer, toast } from "react-toastify";
 
 const Clients = () => {
@@ -15,6 +15,7 @@ const Clients = () => {
     axios.get(`${process.env.REACT_APP_API_SERVER}/services/clientSoa/_getselect`).then((result) => {
       setClients(result.data.entries.entry);
     });
+    
   };
 
   useEffect(() => {
@@ -23,7 +24,9 @@ const Clients = () => {
 
   // DELETE -------------------------------------------------------------------------------------------------------------------------
   const deleteClient = (id) => {
+    console.log(id)
     axios.get(`${process.env.REACT_APP_API_SERVER}/services/clientSoa/_deletedelete?id=${id}`).then((result) => {
+      console.log(result)
       if (result.data.REQUEST_STATUS == "SUCCESSFUL") {
         // notification
         toast.error("Client supprimé", {
