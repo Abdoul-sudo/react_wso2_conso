@@ -1,0 +1,67 @@
+<data name="clientSoa" serviceNamespace="clientSoa" transports="http https local">
+   <description>clientSoa                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                </description>
+   <config enableOData="false" id="clientSoa">
+      <property name="driverClassName">org.postgresql.Driver</property>
+      <property name="url">jdbc:postgresql://localhost:5432/clientSoa</property>
+      <property name="username">postgres</property>
+      <property name="password">123456789</property>
+   </config>
+   <query id="select" useConfig="clientSoa">
+      <sql>SELECT id,nom, prenom, contact, "numeroCin" FROM public."clientSoa";</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd;"id":"$id",&#xd; "nom": "$nom",&#xd; "prenom": "$prenom",&#xd; "contact": "$contact",&#xd; "numeroCin": "$numeroCin"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+   </query>
+   <query id="insert" useConfig="clientSoa">
+      <sql>INSERT INTO public."clientSoa"(&#xd;	nom, prenom, contact, "numeroCin")&#xd;	VALUES (?, ?, ?, ?);</sql>
+      <param name="nom" optional="false" sqlType="STRING"/>
+      <param name="prenom" optional="false" sqlType="STRING"/>
+      <param name="contact" optional="false" sqlType="STRING"/>
+      <param name="numeroCin" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="update" useConfig="clientSoa">
+      <sql>UPDATE public."clientSoa"&#xd;	SET nom=?, prenom=?, contact=?, "numeroCin"=?&#xd;	WHERE id=?;</sql>
+      <param name="nom" optional="false" sqlType="STRING"/>
+      <param name="prenom" optional="false" sqlType="STRING"/>
+      <param name="contact" optional="false" sqlType="STRING"/>
+      <param name="numeroCin" optional="false" sqlType="BIGINT"/>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="delete" useConfig="clientSoa">
+      <sql>DELETE FROM public."clientSoa"&#xd;	WHERE id=?;</sql>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="byId" useConfig="clientSoa">
+      <sql>select nom, prenom, contact, "numeroCin", id from public."clientSoa" where id=?;</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd; "id": "$id",&#xd; "nom": "$nom",&#xd; "prenom": "$prenom",&#xd; "contact": "$contact",&#xd; "numeroCin": "$numeroCin",&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+      <param name="id" optional="false" sqlType="INTEGER"/>
+   </query>
+   <resource method="GET" path="select">
+      <call-query href="select"/>
+   </resource>
+   <resource method="POST" path="insert" returnRequestStatus="true">
+      <call-query href="insert">
+         <with-param name="nom" query-param="nom"/>
+         <with-param name="prenom" query-param="prenom"/>
+         <with-param name="contact" query-param="contact"/>
+         <with-param name="numeroCin" query-param="numeroCin"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="update" returnRequestStatus="true">
+      <call-query href="update">
+         <with-param name="nom" query-param="nom"/>
+         <with-param name="prenom" query-param="prenom"/>
+         <with-param name="contact" query-param="contact"/>
+         <with-param name="numeroCin" query-param="numeroCin"/>
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="delete" returnRequestStatus="true">
+      <call-query href="delete">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="byId">
+      <call-query href="byId">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+</data>
