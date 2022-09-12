@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 
 function ListCategoriesComponent(props) {
-  console.log(props.categories)
+  // 
     return (
         <div className="container">
           <Link to="/categories/add_categorie">
