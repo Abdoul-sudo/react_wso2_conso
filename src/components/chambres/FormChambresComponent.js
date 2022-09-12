@@ -7,24 +7,30 @@ function FormChambresComponent(props) {
 
   const [categories, setCategories] = useState([]);
   const [articles, setArticles] = useState([]);
-
   const [formData, setFormData] = useState({
     numero: "",
     categorieId: "",
     articleId: "",
   });
 
+  /**
+   * @description Gère le forulaire
+   * @details: Chaque imput a un name et une value, on récupère la value de l'input en fonction de son name
+   * @param e : event
+   */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     console.log(formData, "test");
   };
 
+  // GET ARTICLES pour liste déroulante -------------------------------------------------------------------------------------------------------------------------
   const getArticles = () => {
     axios.get(`${process.env.REACT_APP_API_SERVER}/services/articleSoa/_getselect`).then((result) => {
       setArticles(result.data.entries.entry);
     });
   };
 
+  // GET CATEGORIES pour liste déroulante -------------------------------------------------------------------------------------------------------------------------
   const getCategories = () => {
     axios.get(`${process.env.REACT_APP_API_SERVER}/services/categorieSoa/_getselect`).then((result) => {
       setCategories(result.data.entries.entry);
@@ -40,6 +46,7 @@ function FormChambresComponent(props) {
   };
 
   useEffect(() => {
+    // si Edit
     if (id) {
       getchambreById();
     }
@@ -103,6 +110,7 @@ function FormChambresComponent(props) {
           </select>
         </div>
 
+        {/* Si Edit bouton = Modifier - Si Ajout bouton = Ajouter */}
         {id ? (
           <button type="submit" className="btn btn-primary mt-3" onClick={(e) => (e.preventDefault(), props.updateChambre(formData, id))}>
             Modifier

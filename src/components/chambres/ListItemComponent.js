@@ -5,17 +5,20 @@ import axios from "axios";
 function ListItemComponent(props) {
   const [categorie, setCategorie] = useState();
   const [article, setArticle] = useState();
+  // GET CATEGORIE PAR ID (chq chambre porte une categorieId) -------------------------------------------------------------------------------------------------------------------------
   const findCategorie = (id) => {
     axios.get(`${process.env.REACT_APP_API_SERVER}/services/categorieSoa/_getbyid?id=${id}`).then((result) => {
       setCategorie(result.data.entries.entry[0].nom);
     });
   };
 
+  // GET ARTICLE PAR ID (chq chambre porte une articleId) -------------------------------------------------------------------------------------------------------------------------
   const findArticle = (id) => {
     axios.get(`${process.env.REACT_APP_API_SERVER}/services/articleSoa/_getbyid?id=${id}`).then((result) => {
       setArticle(result.data.entries.entry[0].nom);
     });
   };
+
   findCategorie(props.chambre.categorieId);
   findArticle(props.chambre.articleId);
 

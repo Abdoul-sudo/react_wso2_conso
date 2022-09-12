@@ -42,7 +42,7 @@ function Chambre() {
           progress: undefined,
         });
 
-        // refresh data
+        // refresh data et on retourne à la liste
         getChambres();
         navigate("/chambres");
       }
@@ -100,7 +100,7 @@ function Chambre() {
           progress: undefined,
         });
 
-        // refresh data
+        // refresh data et on retourne à la liste
         getChambres();
         navigate("/chambres");
       }
