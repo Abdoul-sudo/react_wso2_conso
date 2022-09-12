@@ -1,0 +1,65 @@
+<data name="chambreSoa" serviceNamespace="chambreSoa" transports="http https local">
+   <description>chambreSoa                                &#xd;                                &#xd;                                &#xd;                                </description>
+   <config enableOData="false" id="chambreSoa">
+      <property name="driverClassName">org.postgresql.Driver</property>
+      <property name="url">jdbc:postgresql://localhost:5432/chambreSoa</property>
+      <property name="username">postgres</property>
+      <property name="password">123456789</property>
+      <property name="dataSourceProps"/>
+      <property name="dynamicUserAuthMapping"/>
+   </config>
+   <query id="select" useConfig="chambreSoa">
+      <sql>SELECT id, numero, "categorieId", "articleId" FROM public."chambreSoa";</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd;"id": "$id",&#xd; "numero": "$numero",&#xd; "categorieId": "$categorieId",&#xd; "articleId": "$articleId",&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+   </query>
+   <query id="insert" useConfig="chambreSoa">
+      <sql>INSERT INTO public."chambreSoa"(&#xd;	numero, "categorieId", "articleId")&#xd;	VALUES (?, ?, ?);</sql>
+      <param name="numero" optional="false" sqlType="BIGINT"/>
+      <param name="categorieId" optional="false" sqlType="BIGINT"/>
+      <param name="articleId" optional="false" paramType="ARRAY" sqlType="BIGINT"/>
+   </query>
+   <query id="update" useConfig="chambreSoa">
+      <sql>UPDATE public."chambreSoa"&#xd;	SET numero=?, "categorieId"=?, "articleId"=?&#xd;	WHERE id=?;</sql>
+      <param name="numero" optional="false" sqlType="BIGINT"/>
+      <param name="categorieId" optional="false" sqlType="BIGINT"/>
+      <param name="articleId" optional="false" paramType="ARRAY" sqlType="BIGINT"/>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="delete" useConfig="chambreSoa">
+      <sql>DELETE FROM public."chambreSoa"&#xd;	WHERE id=?;</sql>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="byId" useConfig="chambreSoa">
+      <sql>select numero, "categorieId", "articleId" from public."chambreSoa" where id=?;</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd; "numero": "$numero",&#xd; "categorieId": "$categorieId",&#xd;"articleId": "$articleId"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+      <param name="id" optional="false" sqlType="INTEGER"/>
+   </query>
+   <resource method="GET" path="select">
+      <call-query href="select"/>
+   </resource>
+   <resource method="POST" path="insert" returnRequestStatus="true">
+      <call-query href="insert">
+         <with-param name="numero" query-param="numero"/>
+         <with-param name="categorieId" query-param="categorieId"/>
+         <with-param name="articleId" query-param="articleId"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="update" returnRequestStatus="true">
+      <call-query href="update">
+         <with-param name="numero" query-param="numero"/>
+         <with-param name="categorieId" query-param="categorieId"/>
+         <with-param name="articleId" query-param="articleId"/>
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="delete" returnRequestStatus="true">
+      <call-query href="delete">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="byId">
+      <call-query href="byId">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+</data>

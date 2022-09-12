@@ -9,15 +9,17 @@
 - RAZAFIMAHATRATRA Peraly Stevy L3IDEV
 
 ## Description du projet
-1- Organisation
-* App.js appelle les pages
-* /pages apelle les components
 
+1- Organisation
+
+- App.js appelle les pages
+- /pages apelle les components
 
 1- Route imbriquée
 
-* Dans App.js: il y a les routes appelant les pages
-* Dans le dossier pages: il y a les routes appelant les composants (du dossier components) correspondant à la page
+- Dans App.js: il y a les routes appelant les pages
+- Dans le dossier pages: il y a les routes appelant les composants (du dossier components) correspondant à la page
 
 2- Appel API
-* L'URL est entrée dans le fichier .env et appelée grâce à process.env.REACT_APP_API_SERVER
+
+- L'URL est entrée dans le fichier .env et appelée grâce à process.env.REACT_APP_API_SERVER

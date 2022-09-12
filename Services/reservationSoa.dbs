@@ -1,0 +1,61 @@
+<data name="reservationSoa" serviceNamespace="reservationSoa" transports="http https local">
+   <description>reservationSoa                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                </description>
+   <config enableOData="false" id="reservationSoa">
+      <property name="driverClassName">org.postgresql.Driver</property>
+      <property name="url">jdbc:postgresql://localhost:5432/reservationSoa</property>
+      <property name="username">postgres</property>
+      <property name="password">123456789</property>
+   </config>
+   <query id="select" useConfig="reservationSoa">
+      <sql>SELECT id,date, "chambreId", "clientId" FROM public."reservationSoa";</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd; "id": "$id",&#xd; "date": "$date",&#xd; "chambreId": "$chambreId",&#xd; "clientId": "$clientId"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+   </query>
+   <query id="insert" useConfig="reservationSoa">
+      <sql>INSERT INTO public."reservationSoa"(&#xd;	date, "chambreId", "clientId")&#xd;	VALUES (?, ?, ?);</sql>
+      <param name="date" optional="false" sqlType="DATE"/>
+      <param name="chambreId" optional="false" sqlType="BIGINT"/>
+      <param name="clientId" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="update" useConfig="reservationSoa">
+      <sql>UPDATE public."reservationSoa"&#xd;	SET date=?, "chambreId"=?&#xd;	WHERE id=?;</sql>
+      <param name="date" optional="false" sqlType="DATE"/>
+      <param name="chambreId" optional="false" sqlType="BIGINT"/>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="delete" useConfig="reservationSoa">
+      <sql>DELETE FROM public."reservationSoa"&#xd;	WHERE id=?;</sql>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="byId" useConfig="reservationSoa">
+      <sql>select to_char(date,'YYYY-MM-DD') as date, "chambreId", "clientId", id from public."reservationSoa" where id=?;</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd; "id": "$id",&#xd; "date": "$date",&#xd;"chambreId": "$chambreId",&#xd;"clientId": "$clientId",&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+      <param name="id" optional="false" sqlType="INTEGER"/>
+   </query>
+   <resource method="GET" path="select">
+      <call-query href="select"/>
+   </resource>
+   <resource method="POST" path="insert" returnRequestStatus="true">
+      <call-query href="insert">
+         <with-param name="date" query-param="date"/>
+         <with-param name="chambreId" query-param="chambreId"/>
+         <with-param name="clientId" query-param="clientId"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="update" returnRequestStatus="true">
+      <call-query href="update">
+         <with-param name="date" query-param="date"/>
+         <with-param name="chambreId" query-param="chambreId"/>
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="delete" returnRequestStatus="true">
+      <call-query href="delete">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="byId">
+      <call-query href="byId">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+</data>

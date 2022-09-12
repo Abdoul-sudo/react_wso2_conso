@@ -1,0 +1,63 @@
+<data name="categorieSoa" serviceNamespace="categorieSoa" transports="http https local">
+   <description>categorieSoa                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                </description>
+   <config enableOData="false" id="categorieSoa">
+      <property name="driverClassName">org.postgresql.Driver</property>
+      <property name="url">jdbc:postgresql://localhost:5432/categorieSoa</property>
+      <property name="username">postgres</property>
+      <property name="password">123456789</property>
+      <property name="dataSourceProps"/>
+      <property name="dynamicUserAuthMapping">
+         <configuration/>
+      </property>
+   </config>
+   <query id="select" useConfig="categorieSoa">
+      <sql>SELECT id, nom, tarif FROM public."categorieSoa";</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd;"id":"$id",&#xd; "nom": "$nom",&#xd; "tarif": "$tarif"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+   </query>
+   <query id="insert" useConfig="categorieSoa">
+      <sql>INSERT INTO public."categorieSoa"(&#xd;	nom, tarif)&#xd;	VALUES (?, ?);</sql>
+      <param name="nom" optional="false" sqlType="STRING"/>
+      <param name="tarif" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="update" useConfig="categorieSoa">
+      <sql>UPDATE public."categorieSoa"&#xd;	SET nom=?, tarif=?&#xd;	WHERE id=?;</sql>
+      <param name="nom" optional="false" sqlType="STRING"/>
+      <param name="tarif" optional="false" sqlType="BIGINT"/>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="delete" useConfig="categorieSoa">
+      <sql>DELETE FROM public."categorieSoa"&#xd;	WHERE id=?;</sql>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="byId" useConfig="categorieSoa">
+      <sql>select id, nom, tarif from public."categorieSoa" where id=?;</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd;"id": "$id",&#xd; "nom": "$nom",&#xd; "tarif": "$tarif"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+      <param name="id" optional="false" sqlType="INTEGER"/>
+   </query>
+   <resource method="GET" path="select">
+      <call-query href="select"/>
+   </resource>
+   <resource method="POST" path="insert" returnRequestStatus="true">
+      <call-query href="insert">
+         <with-param name="nom" query-param="nom"/>
+         <with-param name="tarif" query-param="tarif"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="update" returnRequestStatus="true">
+      <call-query href="update">
+         <with-param name="nom" query-param="nom"/>
+         <with-param name="tarif" query-param="tarif"/>
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="delete" returnRequestStatus="true">
+      <call-query href="delete">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="byId">
+      <call-query href="byId">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+</data>

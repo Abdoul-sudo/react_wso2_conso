@@ -1,0 +1,63 @@
+<data name="articleSoa" serviceNamespace="articleSoa" transports="http https local">
+   <description>articleSoa                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                &#xd;                                </description>
+   <config enableOData="false" id="articleSoa">
+      <property name="driverClassName">org.postgresql.Driver</property>
+      <property name="url">jdbc:postgresql://localhost:5432/articleSoa</property>
+      <property name="username">postgres</property>
+      <property name="password">123456789</property>
+      <property name="dataSourceProps"/>
+      <property name="dynamicUserAuthMapping">
+         <configuration/>
+      </property>
+   </config>
+   <query id="select" useConfig="articleSoa">
+      <sql>SELECT id, nom, quantity FROM public."articleSoa"</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd;"id": "$id",&#xd; "nom": "$nom",&#xd; "quantity": "$quantity"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+   </query>
+   <query id="insert" useConfig="articleSoa">
+      <sql>INSERT INTO public."articleSoa"(&#xd;	nom, quantity)&#xd;	VALUES (?, ?);</sql>
+      <param name="nom" optional="false" sqlType="STRING"/>
+      <param name="quantity" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="update" useConfig="articleSoa">
+      <sql>UPDATE public."articleSoa"&#xd;	SET nom=?, quantity=?&#xd;	WHERE id=?;</sql>
+      <param name="nom" optional="false" sqlType="STRING"/>
+      <param name="quantity" optional="false" sqlType="BIGINT"/>
+      <param name="id" optional="false" sqlType="INTEGER"/>
+   </query>
+   <query id="delete" useConfig="articleSoa">
+      <sql>DELETE FROM public."articleSoa"&#xd;	WHERE id=?;</sql>
+      <param name="id" optional="false" sqlType="BIGINT"/>
+   </query>
+   <query id="byId" useConfig="articleSoa">
+      <sql>select nom, quantity from public."articleSoa" where id=?;</sql>
+      <result outputType="json">{&#xd; "entries": {&#xd; "entry": [&#xd; {&#xd; "nom": "$nom",&#xd; "quantity": "$quantity"&#xd; }&#xd; ]&#xd; }&#xd;}</result>
+      <param name="id" optional="false" sqlType="INTEGER"/>
+   </query>
+   <resource method="GET" path="select">
+      <call-query href="select"/>
+   </resource>
+   <resource method="POST" path="insert" returnRequestStatus="true">
+      <call-query href="insert">
+         <with-param name="nom" query-param="nom"/>
+         <with-param name="quantity" query-param="quantity"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="update" returnRequestStatus="true">
+      <call-query href="update">
+         <with-param name="nom" query-param="nom"/>
+         <with-param name="quantity" query-param="quantity"/>
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="delete" returnRequestStatus="true">
+      <call-query href="delete">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="byId">
+      <call-query href="byId">
+         <with-param name="id" query-param="id"/>
+      </call-query>
+   </resource>
+</data>
